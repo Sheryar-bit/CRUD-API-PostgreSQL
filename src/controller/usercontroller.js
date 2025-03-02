@@ -1,10 +1,11 @@
 // const { user } = require("pg/lib/defaults");
-const { createUserService, deleteUserService, getUserByIdService, updateUserService } = require('../models/UserModel')
+const { createUserService, deleteUserService, getUserByIdService, updateUserService, getAllUserService } = require('../models/UserModel')
 
-const handleResponse = function(res, status, message){
+const handleResponse = function(res, status, message,data = null){
     res.status(status).json({
         status: status,
-        message: message
+        message: message,
+        data: data
     });
 };
 
@@ -23,7 +24,7 @@ const createUsers = async function (req, res, next) {
 const getAllUsers = async function (req, res, next) {
     
     try {
-        const users = await getUserService();
+        const users = await getAllUserService();
         handleResponse(res, 200, 'User upadted', users)
     } catch (error) {
         console.log("error", error)

@@ -4,7 +4,9 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const userRoutes = require('./src/Routes/UserRoutes')
 const errorHandling = require('./src/middleware/errorHandler')
-const pool = require('./src/config/db')
+const pool = require('./src/config/db');
+const { required } = require('joi');
+const CreateUserTable = require('./src/data/CreateUserTable')
 dotenv.config();
 
 
@@ -15,6 +17,9 @@ app.use(cors());
 
 //error handeling middlewrae:
 app.use(errorHandling);
+
+//Create table before starting the server:
+CreateUserTable();
 
 //Routes:
 app.use("/api", userRoutes)
