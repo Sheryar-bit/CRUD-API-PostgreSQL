@@ -2,6 +2,8 @@ const express = require('express');
 const Client = require('pg')
 const cors = require('cors');
 const dotenv = require('dotenv');
+const userRoutes = require('./src/Routes/UserRoutes')
+const errorHandling = require('./src/middleware/errorHandler')
 const pool = require('./src/config/db')
 dotenv.config();
 
@@ -10,6 +12,13 @@ const app = express();
 
 app.use(express.json());
 app.use(cors());
+
+//error handeling middlewrae:
+app.use(errorHandling);
+
+//Routes:
+app.use("/api", userRoutes)
+
 
 app.get('/', async function(req, res) {
     console.log("Start");
