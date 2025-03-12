@@ -27,9 +27,16 @@ const deleteUserService = async function (id) {
     return result.rows[0];
 }
 
+//DATA REFINING:
+const getAllUserRefinedService = async function (id) {
+    const result = await pool.query("SELECT * FROM users WHERE id = $1", [id])
+}
 
-module.exports =getAllUserService;
-module.exports =getUserByIdService;
-module.exports =createUserService;
-module.exports =updateUserService;
-module.exports =deleteUserService;
+module.exports ={
+    getAllUserService,
+    getUserByIdService,
+    createUserService,
+    updateUserService,
+    deleteUserService,
+    getAllUserRefinedService
+};

@@ -4,6 +4,7 @@ const joi = require('joi');
 //defining how our email and name should bew 
 const userSchema = joi.object({
     name: joi.string().min(3).required(),
+    age: joi.number().integer().required(),
     email: joi.string().email().required(),
 })
 

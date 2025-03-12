@@ -7,16 +7,15 @@ const errorHandling = require('./src/middleware/errorHandler')
 const pool = require('./src/config/db');
 const { required } = require('joi');
 const CreateUserTable = require('./src/data/CreateUserTable')
-dotenv.config();
 
 
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 
-//error handeling middlewrae:
-app.use(errorHandling);
+
 
 //Create table before starting the server:
 CreateUserTable();
@@ -24,18 +23,23 @@ CreateUserTable();
 //Routes:
 app.use("/api", userRoutes)
 
+//error handeling middlewrae:
+app.use(errorHandling);
 
-app.get('/', async function(req, res) {
-    console.log("Start");
-    const result = await pool.query("SELECT current_database()");
-    console.log("End");
-    res.send(`The name of the Database is: ${result.rows[0].current_database}`)
-    
-})
+app.get('/', async function (req, res) {
+    try {
+        const result = await pool.query("SELECT current_database()");
+        res.send(`The name of the Database is: ${result.rows[0].current_database}`);
+    } catch (error) {
+        console.log("error", error);
+        // res.status(500).json({ message: "Internal Server Error" });
+    }
+});
+
 
 
 //server Runnning
-const PORT = process.env.PORT || 5000
+const PORT = 5000
 app.listen(PORT, function() {
     console.log(`Server is running on port ${PORT}`);
 });

@@ -25,7 +25,7 @@ const getAllUsers = async function (req, res, next) {
     
     try {
         const users = await getAllUserService();
-        handleResponse(res, 200, 'User upadted', users)
+        handleResponse(res, 200, 'User ferched', users)
     } catch (error) {
         console.log("error", error)
     }
